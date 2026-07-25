@@ -1,0 +1,10 @@
+# Normalize line endings: store text as LF in the repo, auto on checkout.
+* text=auto eol=lf
+
+# Explicit LF for the project's text formats.
+*.md    text eol=lf
+*.json  text eol=lf
+*.txt   text eol=lf
+
+# gitkeep placeholder
+.gitkeep text eol=lf
