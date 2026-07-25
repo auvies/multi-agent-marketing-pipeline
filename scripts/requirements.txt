@@ -1,0 +1,2 @@
+# Claude Agent SDK — drives the marketing pipeline in scripts/run_pipeline.py
+claude-agent-sdk
