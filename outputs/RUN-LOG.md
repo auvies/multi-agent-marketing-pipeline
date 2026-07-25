@@ -1,9 +1,10 @@
-# Run Log — Dawn Blend Launch Campaign
+# Run Log — Multi-Agent Team
 
-Index of every workflow run for the `sample-request.md` (Dawn Blend coffee launch).
-Each entry links to its full record and summarizes what happened. Newest context at the bottom.
+Index of every workflow run. Runs 1–4 are the **Dawn Blend coffee launch** (`sample-request.md`);
+Run 5 is a **cross-domain generalization test** (Ruff Day mobile dog grooming) proving the agents
+aren't coffee-specific. Each entry links to its full record and summarizes what happened.
 
-**Brief:** [prompts/project-brief.md](../prompts/project-brief.md) · **Request:** [sample-request.md](../sample-request.md) · **Rules:** [CLAUDE.md](../CLAUDE.md)
+**Brief:** [prompts/project-brief.md](../prompts/project-brief.md) · **Sample request:** [sample-request.md](../sample-request.md) · **Rules:** [CLAUDE.md](../CLAUDE.md)
 
 ---
 
@@ -16,8 +17,10 @@ Each entry links to its full record and summarizes what happened. Newest context
 | 3a | Live pipeline (blocked) | [dawn-blend-launch-ESCALATED.md](dawn-blend-launch-ESCALATED.md) | Real subagents | 22/25 | ⛔ Escalated |
 | 3b | Live pipeline (unblocked) | [dawn-blend-launch-FINAL.md](dawn-blend-launch-FINAL.md) | Real subagents | 24/25 | ✅ Approved |
 | 4 | Draft→final flow | [dawn-blend-launch-draftflow.md](dawn-blend-launch-draftflow.md) | Real subagents | 24 draft → 25 final | ✅ Approved |
+| 5 | Cross-domain test (grooming) | [ruff-day-launch-DRAFT.md](ruff-day-launch-DRAFT.md) | Real registered subagents (by type) | 22/25 draft | 📝 Draft record |
 
 > Runs 3a and 3b are the **same live run** in two states — before and after the human supplied the missing inputs.
+> Run 5 is a **different campaign** (Ruff Day dog grooming) run to confirm the agents generalize beyond coffee.
 > Run 4 re-runs the live pipeline under the new **draft→final** review modes: the same placeholders that
 > hard-failed Run 3a now pass a DRAFT review as noted gaps, and the run reaches FINAL-APPROVED after fill-in.
 
@@ -101,6 +104,31 @@ genuine content issue (Post 2 had no push toward the goal), fixed before FINAL.
 The FINAL reviewer added a **verification note**, now recorded as a pre-ship gate: the filled values are
 demo stand-ins and must be confirmed as genuinely supplied by Priya — if invented, they would retroactively
 trip the fabrication gate.
+
+## Run 5 — Cross-domain generalization test (real registered subagents)
+**File:** [ruff-day-launch-DRAFT.md](ruff-day-launch-DRAFT.md) · **Score:** 22/25 DRAFT-ACCEPTABLE · **Status:** 📝 Draft record (not shippable)
+
+A **different campaign** — Ruff Day Mobile Grooming, an Austin dog-grooming van — run to confirm the agents
+generalize beyond coffee. Different in every dimension: pet-services domain, **friendly/playful** tone,
+a **bookings** goal (50 in month one), and a hard **zero-reviews** constraint (brand new business).
+First run to invoke the agents by their **registered `subagent_type`** (not the `general-purpose` fallback).
+
+| Step | Agent | Result |
+|------|-------|--------|
+| 1 | orchestrator | Built the brief from a raw request; locked goal + playful tone; flagged booking-link `[TODO]` |
+| 2 | research-agent | Domain-native insight — anxious/senior dogs, van logistics, *trust-without-social-proof* as #1 barrier |
+| 3 | strategy-agent | Turned the zero-reviews liability into a pillar ("Trust through transparency, not reviews") |
+| 4 | content-agent | Playful on-tone posts; met the no-reviews rule head-on; booking link left `[TODO]` |
+| 5 | review-agent (**DRAFT**) | **22/25 DRAFT-ACCEPTABLE** — placeholders noted as gaps, not failed |
+
+**What it proves:** the pipeline isn't coffee-specific — every agent re-derived a correct, domain-appropriate
+campaign from scratch. It also confirmed the **mechanical rubric is genuinely deterministic**: the reviewer
+docked Tone −1 for one ALL-CAPS word ("NOT") and Goal-connection −1 each for two posts lacking a booking
+push, citing the exact rules. Open (Sam-owed) gaps: booking link + service-area list — a FINAL review would
+hard-fail until they're filled, same as the coffee runs.
+
+*Known tension noted during this run:* the ALL-CAPS deduction fired on playful stylistic emphasis that is
+arguably on-brand for a "little playful" tone — the reproducibility-vs-nuance trade-off of mechanical scoring.
 
 ---
 
