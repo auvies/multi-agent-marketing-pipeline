@@ -5,28 +5,28 @@
 > The Orchestrator builds this from the user request. Fill in every field.
 
 ## 1. The request
-- **What the user wants (one sentence):** A social media launch campaign to drive first-week sales of a new coffee.
-- **Deadline:** Launch week (campaign runs across the first 7 days on sale).
+- **What the user wants (one sentence):** A social media launch campaign to fill the first month's calendar for a new mobile dog-grooming van in Austin, TX.
+- **Deadline:** Launch month (campaign runs across the first month of operation).
 
 ## 2. Product / offer
-- **Name:** Dawn Blend
-- **What it is:** A light-roast, single-origin coffee for people who work from home and want a better morning cup without a barista.
-- **Key benefits:** Great morning cup with no barista/equipment fuss; single-origin quality and traceability; ships direct.
-- **Price / offer (if any):** $18 a bag, direct-to-consumer.
-- **Real proof points (stats, testimonials, links):** [TODO: real origin/farm name, roast notes, and order link to be supplied by Priya]
+- **Name:** Ruff Day Mobile Grooming
+- **What it is:** A mobile dog-grooming van in Austin, TX that comes to your home — a self-contained van parked outside your house delivers a full groom (wash, trim, nails, ears — the works).
+- **Key benefits:** Convenience (grooming comes to you, van parked at your door); full-service groom in one visit (wash, trim, nails, ears); low-stress for both dog and owner — no trips, no drop-offs, no crowded shop.
+- **Price / offer (if any):** Standard groom is $75.
+- **Real proof points (stats, testimonials, links):** None yet — brand is brand new with no reviews or testimonials. [TODO: booking site link to come from Sam]
 
 ## 3. Goal & tone  (never changed by any agent)
-- **Campaign goal:** Sell 300 bags in launch week.
-- **Tone (exact):** Calm, honest, slightly nerdy about coffee — no hype, no "world's best" claims.
+- **Campaign goal:** Get 50 bookings in month one.
+- **Tone (exact):** Friendly, warm, and a little playful — dogs are family, and grooming shouldn't be stressful for the dog or the owner.
 
 ## 4. Audience (starting hints)
-- **Who it's for:** People who work from home and want a quality morning coffee without effort or equipment.
-- **Anything already known about them:** Reachable via organic social and an existing WhatsApp list (~800 people).
+- **Who it's for:** Dog owners in the Austin, TX neighborhood the van serves — people who treat their dogs as family and value convenience and a low-stress grooming experience.
+- **Anything already known about them:** Reachable via organic social (Instagram, Facebook) and a WhatsApp waitlist of ~300 people who signed up at a local pet expo (already warm/interested).
 
 ## 5. Channels & constraints
-- **Where it runs (social platforms, WhatsApp list, etc.):** Organic social posts + one WhatsApp broadcast to ~800 subscribers.
-- **Budget:** Small — mostly organic (no significant paid spend).
-- **Do's / don'ts / compliance notes:** No hype, no superlative/"world's best" claims, no fabricated proof.
+- **Where it runs (social platforms, WhatsApp list, etc.):** Instagram + Facebook organic posts, plus one WhatsApp message to a waitlist of ~300 pet-expo signups.
+- **Budget:** Not specified — assume mostly organic (no significant paid spend). [TODO: confirm any paid budget with Sam]
+- **Do's / don'ts / compliance notes:** No fabricated reviews, testimonials, awards, or proof — the brand is brand new and has none yet. Booking is through the website; use the real link once supplied (do not invent a URL).
 
 ---
 
