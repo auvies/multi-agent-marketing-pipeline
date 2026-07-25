@@ -1,6 +1,13 @@
 # Machine-local Claude Code settings (per-user, not shared)
 .claude/settings.local.json
 
+# Python bytecode / build cruft
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
 # OS / editor cruft
 Thumbs.db
 Desktop.ini
