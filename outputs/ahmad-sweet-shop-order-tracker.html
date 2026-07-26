@@ -1,0 +1,431 @@
+<div class="tracker-page">
+
+  <header class="ledger-header">
+    <div class="brand">
+      <span class="brand-eyebrow">Special Southern Barfi &mdash; Launch Campaign</span>
+      <h1>Ahmad Sweet Shop</h1>
+      <p class="brand-sub">Daily Order Tracker</p>
+    </div>
+    <button class="print-btn" onclick="window.print()" aria-label="Print this tracker">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+      Print this page
+    </button>
+  </header>
+
+  <section class="script-card">
+    <h2>When an order comes in, ask this &mdash; every time</h2>
+    <p class="script-line">&ldquo;Aap ne humein kahan se dekha &mdash; Instagram, Facebook, ya WhatsApp?&rdquo;</p>
+    <p class="script-line-en">&ldquo;Where did you hear about us &mdash; Instagram, Facebook, or WhatsApp?&rdquo;</p>
+    <p class="script-note">Write the answer as a code in the <strong>Source</strong> column below. This is the only way to know which post is actually selling barfi.</p>
+  </section>
+
+  <section class="legend" aria-label="Codes used in the ledger">
+    <div class="legend-box">
+      <h3>Occasion codes</h3>
+      <dl>
+        <div><dt>S</dt><dd>Shaadi / Wedding</dd></div>
+        <div><dt>B</dt><dd>Birthday</dd></div>
+        <div><dt>N</dt><dd>Newborn</dd></div>
+        <div><dt>E</dt><dd>Exam success</dd></div>
+        <div><dt>O</dt><dd>Other</dd></div>
+      </dl>
+    </div>
+    <div class="legend-box">
+      <h3>Source codes</h3>
+      <dl>
+        <div><dt>P1</dt><dd>Post 1 &mdash; Occasion</dd></div>
+        <div><dt>P2</dt><dd>Post 2 &mdash; Trust</dd></div>
+        <div><dt>P3</dt><dd>Post 3 &mdash; Gifting</dd></div>
+        <div><dt>WA</dt><dd>WhatsApp broadcast</dd></div>
+        <div><dt>C</dt><dd>Call-in / referral</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="ledger-table-wrap">
+    <table class="ledger">
+      <thead>
+        <tr>
+          <th class="col-no">No.</th>
+          <th class="col-date">Date</th>
+          <th class="col-time">Time</th>
+          <th class="col-phone">Customer phone</th>
+          <th class="col-occ">Occ.</th>
+          <th class="col-src">Src.</th>
+          <th class="col-kg">Packets (kg)</th>
+          <th class="col-amt">Amount (Rs)</th>
+          <th class="col-notes">Notes</th>
+        </tr>
+      </thead>
+      <tbody id="ledger-body"></tbody>
+    </table>
+  </section>
+
+  <section class="summary-box">
+    <h2>Week summary</h2>
+    <div class="summary-grid">
+      <div class="summary-field wide">
+        <span class="summary-label">Week of</span>
+        <span class="fill-line"></span>
+      </div>
+      <div class="summary-field">
+        <span class="summary-label">Total orders</span>
+        <span class="fill-line short"></span>
+      </div>
+      <div class="summary-field">
+        <span class="summary-label">Total packets (kg)</span>
+        <span class="fill-line short"></span>
+      </div>
+      <div class="summary-field">
+        <span class="summary-label">Total revenue (Rs)</span>
+        <span class="fill-line short"></span>
+      </div>
+      <div class="summary-field">
+        <span class="summary-label">Days at 200&nbsp;pkt goal</span>
+        <span class="fill-line short"><span class="goal-of">/ 7</span></span>
+      </div>
+      <div class="summary-field">
+        <span class="summary-label">Best-selling source</span>
+        <span class="fill-line short"></span>
+      </div>
+      <div class="summary-field">
+        <span class="summary-label">Best-selling occasion</span>
+        <span class="fill-line short"></span>
+      </div>
+    </div>
+    <p class="summary-note">Fill this in once a week &mdash; it tells you which post to run more of, and which occasion to lean into next.</p>
+  </section>
+
+  <footer class="ledger-footer">
+    <span>Ahmad Sweet Shop</span>
+    <span class="dot">&middot;</span>
+    <span>Orders: 0335&#8209;1600866</span>
+    <span class="dot">&middot;</span>
+    <span>Rs. 850/kg</span>
+  </footer>
+
+</div>
+
+<style>
+  :root {
+    --ink: #2a1b14;
+    --ink-soft: #5a4436;
+    --paper: #f6ecd9;
+    --paper-alt: #efe1c4;
+    --maroon: #6e1f2e;
+    --maroon-strong: #591826;
+    --gold: #a9782e;
+    --line: #d9c7a3;
+    --line-strong: #c2a877;
+
+    --font-display: "Big Caslon", "Book Antiqua", "Palatino Linotype", Georgia, serif;
+    --font-body: "Trebuchet MS", Verdana, "Segoe UI", sans-serif;
+    --font-mono: Consolas, "Courier New", monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #ede0c8;
+      --ink-soft: #c9b89c;
+      --paper: #221512;
+      --paper-alt: #2c1d18;
+      --maroon: #c4576b;
+      --maroon-strong: #d97488;
+      --gold: #c99a46;
+      --line: #4a362b;
+      --line-strong: #5f4636;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #ede0c8;
+    --ink-soft: #c9b89c;
+    --paper: #221512;
+    --paper-alt: #2c1d18;
+    --maroon: #c4576b;
+    --maroon-strong: #d97488;
+    --gold: #c99a46;
+    --line: #4a362b;
+    --line-strong: #5f4636;
+  }
+  :root[data-theme="light"] {
+    --ink: #2a1b14;
+    --ink-soft: #5a4436;
+    --paper: #f6ecd9;
+    --paper-alt: #efe1c4;
+    --maroon: #6e1f2e;
+    --maroon-strong: #591826;
+    --gold: #a9782e;
+    --line: #d9c7a3;
+    --line-strong: #c2a877;
+  }
+
+  .tracker-page {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 2.25rem 2rem 2.5rem;
+    border-left: 3px solid var(--maroon);
+    box-sizing: border-box;
+  }
+  .tracker-page * { box-sizing: border-box; }
+
+  .ledger-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-bottom: 1.1rem;
+    border-bottom: 2px solid var(--maroon);
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .brand-eyebrow {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.35rem;
+    font-weight: 700;
+  }
+  .ledger-header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 1.4rem + 2vw, 2.5rem);
+    line-height: 1.05;
+    margin: 0;
+    color: var(--maroon);
+    text-wrap: balance;
+    font-weight: 600;
+  }
+  .brand-sub {
+    margin: 0.3rem 0 0;
+    font-size: 1rem;
+    color: var(--ink-soft);
+    font-style: italic;
+    font-family: var(--font-display);
+  }
+  .print-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--maroon);
+    color: var(--paper);
+    border: none;
+    padding: 0.6rem 1rem;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background 0.15s ease;
+    flex-shrink: 0;
+  }
+  .print-btn:hover { background: var(--maroon-strong); }
+  .print-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  .script-card {
+    background: var(--paper-alt);
+    border: 1px solid var(--line-strong);
+    border-left: 3px solid var(--gold);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.35rem;
+    border-radius: 2px;
+  }
+  .script-card h2 {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    margin: 0 0 0.55rem;
+    font-weight: 700;
+  }
+  .script-line {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    margin: 0 0 0.2rem;
+    color: var(--ink);
+  }
+  .script-line-en {
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    margin: 0 0 0.6rem;
+    font-style: italic;
+  }
+  .script-note {
+    font-size: 0.83rem;
+    color: var(--ink-soft);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .legend {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .legend-box {
+    border: 1px solid var(--line);
+    padding: 0.85rem 1rem;
+    border-radius: 2px;
+  }
+  .legend-box h3 {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--maroon);
+    margin: 0 0 0.55rem;
+    font-weight: 700;
+  }
+  .legend-box dl { margin: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+  .legend-box dl > div { display: flex; align-items: baseline; gap: 0.55rem; }
+  .legend-box dt {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--gold);
+    min-width: 1.6em;
+    font-size: 0.85rem;
+  }
+  .legend-box dd { margin: 0; font-size: 0.85rem; color: var(--ink); }
+
+  .ledger-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--line-strong);
+    margin-bottom: 1.75rem;
+  }
+  table.ledger {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-variant-numeric: tabular-nums;
+    min-width: 760px;
+  }
+  table.ledger thead th {
+    background: var(--maroon);
+    color: var(--paper);
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: left;
+    padding: 0.55rem 0.6rem;
+    white-space: nowrap;
+  }
+  table.ledger td {
+    border-bottom: 1px solid var(--line);
+    padding: 0.65rem 0.6rem;
+    color: var(--ink-soft);
+    height: 1.9rem;
+  }
+  table.ledger tbody tr:nth-child(even) { background: var(--paper-alt); }
+  table.ledger tbody tr:nth-child(3n) td:not(.col-no) { border-bottom: 1px solid var(--line-strong); }
+  .col-no { width: 2.4rem; color: var(--gold) !important; font-weight: 700; text-align: right; }
+  .col-date, .col-time { width: 4.6rem; }
+  .col-phone { width: 7.5rem; }
+  .col-occ, .col-src { width: 3rem; text-align: center; }
+  .col-kg, .col-amt { width: 5.5rem; }
+  .col-notes { min-width: 8rem; }
+
+  .summary-box {
+    border: 1px solid var(--line-strong);
+    border-top: 2px solid var(--maroon);
+    padding: 1.1rem 1.25rem 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .summary-box h2 {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    color: var(--maroon);
+    margin: 0 0 0.9rem;
+    font-weight: 600;
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.1rem 1.3rem;
+  }
+  .summary-field.wide { grid-column: 1 / -1; }
+  .summary-label {
+    display: block;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  .fill-line {
+    display: block;
+    border-bottom: 1px solid var(--ink-soft);
+    height: 1.3rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+  .fill-line.short { max-width: 9rem; }
+  .goal-of { float: right; color: var(--ink-soft); font-size: 0.78rem; }
+  .summary-note {
+    margin: 1rem 0 0;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  .ledger-footer {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    font-family: var(--font-body);
+  }
+  .ledger-footer .dot { color: var(--gold); }
+
+  @media (max-width: 640px) {
+    .tracker-page { padding: 1.5rem 1.1rem 2rem; }
+    .legend { grid-template-columns: 1fr; }
+    .ledger-header { align-items: flex-start; }
+  }
+
+  @media print {
+    :root {
+      --ink: #2a1b14; --ink-soft: #4a382c; --paper: #ffffff; --paper-alt: #f4ede0;
+      --maroon: #6e1f2e; --maroon-strong: #591826; --gold: #8a6222;
+      --line: #cbb98f; --line-strong: #a98f5c;
+    }
+    .tracker-page { border-left: none; padding: 0; max-width: 100%; }
+    .print-btn { display: none; }
+    table.ledger thead th { background: #ece2c9 !important; color: var(--maroon) !important; }
+    .summary-box, .ledger-table-wrap { break-inside: avoid; }
+  }
+</style>
+
+<script>
+  (function () {
+    var body = document.getElementById("ledger-body");
+    var rows = 22;
+    var html = "";
+    for (var i = 1; i <= rows; i++) {
+      html +=
+        '<tr>' +
+        '<td class="col-no">' + i + '</td>' +
+        '<td class="col-date"></td>' +
+        '<td class="col-time"></td>' +
+        '<td class="col-phone"></td>' +
+        '<td class="col-occ"></td>' +
+        '<td class="col-src"></td>' +
+        '<td class="col-kg"></td>' +
+        '<td class="col-amt"></td>' +
+        '<td class="col-notes"></td>' +
+        '</tr>';
+    }
+    body.innerHTML = html;
+  })();
+</script>
