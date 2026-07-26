@@ -10,8 +10,8 @@ campaign** using a small team of AI agents. See `CLAUDE.md` for the full rules.
 | Orchestrator | Coordinates all agents; assembles the final package. Never writes research, strategy, or content. |
 | Research Agent | Audience insights only |
 | Strategy Agent | Objective, main message, content pillars |
-| Content Agent | Social posts + one WhatsApp message |
-| Review Agent | Score + improvements |
+| Content Agent | 3 social posts + one WhatsApp message + CTA |
+| Review Agent | Score out of 10 + improvements |
 
 ## Fixed workflow
 
@@ -27,22 +27,12 @@ Orchestrator builds brief
 The order never changes. Every handoff passes the full brief plus the previous
 agent's output, and every agent ends with a `Handoff to [next agent]:` line.
 
-## Review runs in two modes: draft → final
-The Review Agent scores content on a mechanical rubric (five dimensions, /25, with
-fixed deductions and hard-fail gates — see [CLAUDE.md](CLAUDE.md)). It runs in one of
-two modes, which the Orchestrator states:
-
-- **DRAFT** — while the human still owes brief inputs. An expected `[TODO]` (a real
-  proof point or link the brief marks as theirs) is logged as a *noted gap*, not a
-  failure, so the pipeline can keep moving while the Orchestrator escalates for those
-  values in parallel. Passing verdict: **DRAFT-ACCEPTABLE**.
-- **FINAL** — before shipping. Full strictness: any leftover placeholder hard-fails.
-  Passing verdict: **FINAL-APPROVED** — and only FINAL-APPROVED content may be assembled
-  into the shipping package.
-
-This keeps a work-in-progress from being branded a failure just for having expected
-gaps, while still refusing to ship a campaign with holes. (Fabrication and any change to
-the goal or tone hard-fail in *both* modes.)
+## Review
+The Review Agent scores the campaign **out of 10** against the goal and tone,
+flags weak or off-tone lines, and rewrites them directly. Content is
+**acceptable at 8/10 or higher**; below that, the flagged parts go back for a
+rewrite before the package is assembled. Agents never invent proof — anything
+the human still owes is left as a `[TODO]` placeholder. See [CLAUDE.md](CLAUDE.md).
 
 ## Final package includes
 Audience insights · campaign objective · main message · content pillars ·
@@ -66,8 +56,8 @@ sample-request.md      example request to test with
 4. Find the finished campaign in `outputs/`.
 
 ## Worked examples
-See **[outputs/RUN-LOG.md](outputs/RUN-LOG.md)** for a consolidated index of every
-run of the sample request — the baseline campaign, the rewrite-loop and escalation
-demos, the live end-to-end run using the real subagents (blocked at 22/25, then
-approved at 24/25 once the missing inputs were supplied), and the draft→final run
-(DRAFT-ACCEPTABLE at 24/25 with open gaps, then FINAL-APPROVED at 25/25 after fill-in).
+See **[outputs/RUN-LOG.md](outputs/RUN-LOG.md)** for an index of earlier runs of
+the sample request. Note: those runs were produced under an earlier, stricter
+review design (a /25 mechanical rubric with draft/final modes); the current
+system scores out of 10. They're kept as a historical record of the pipeline
+working end to end — the workflow and roles are unchanged.
