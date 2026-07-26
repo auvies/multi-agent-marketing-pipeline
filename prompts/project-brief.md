@@ -5,28 +5,28 @@
 > The Orchestrator builds this from the user request. Fill in every field.
 
 ## 1. The request
-- **What the user wants (one sentence):** A social media launch campaign to fill the first month's calendar for a new mobile dog-grooming van in Austin, TX.
-- **Deadline:** Launch month (campaign runs across the first month of operation).
+- **What the user wants (one sentence):** A social media campaign — a handful of social posts plus one WhatsApp message — to drive first-week sales of "Dawn Blend" coffee.
+- **Deadline:** Launch week (campaign runs across the coffee's first week on sale).
 
 ## 2. Product / offer
-- **Name:** Ruff Day Mobile Grooming
-- **What it is:** A mobile dog-grooming van in Austin, TX that comes to your home — a self-contained van parked outside your house delivers a full groom (wash, trim, nails, ears — the works).
-- **Key benefits:** Convenience (grooming comes to you, van parked at your door); full-service groom in one visit (wash, trim, nails, ears); low-stress for both dog and owner — no trips, no drop-offs, no crowded shop.
-- **Price / offer (if any):** Standard groom is $75.
-- **Real proof points (stats, testimonials, links):** None yet — brand is brand new with no reviews or testimonials. [TODO: booking site link to come from Sam]
+- **Name:** Dawn Blend
+- **What it is:** A light-roast, single-origin coffee from a small coffee brand, aimed at people who work from home and want a better morning cup without needing a barista.
+- **Key benefits:** Better morning cup without a barista or coffee shop trip; light-roast single-origin quality; ships direct to your door — convenient for work-from-home routines.
+- **Price / offer (if any):** $18 a bag, ships direct.
+- **Real proof points (stats, testimonials, links):** None supplied yet. [TODO: order/checkout link to come from Priya] [TODO: any tasting notes, sourcing details, or origin story Priya wants referenced — do not invent]
 
 ## 3. Goal & tone  (never changed by any agent)
-- **Campaign goal:** Get 50 bookings in month one.
-- **Tone (exact):** Friendly, warm, and a little playful — dogs are family, and grooming shouldn't be stressful for the dog or the owner.
+- **Campaign goal:** 300 bags sold in launch week.
+- **Tone (exact):** Calm, honest, slightly nerdy about coffee — no hype, no "world's best" (or similar superlative) claims.
 
 ## 4. Audience (starting hints)
-- **Who it's for:** Dog owners in the Austin, TX neighborhood the van serves — people who treat their dogs as family and value convenience and a low-stress grooming experience.
-- **Anything already known about them:** Reachable via organic social (Instagram, Facebook) and a WhatsApp waitlist of ~300 people who signed up at a local pet expo (already warm/interested).
+- **Who it's for:** People who work from home and want a better morning coffee routine without needing a barista or coffee shop.
+- **Anything already known about them:** Reachable via organic social and a WhatsApp broadcast list of about 800 existing subscribers (already opted in / warm audience).
 
 ## 5. Channels & constraints
-- **Where it runs (social platforms, WhatsApp list, etc.):** Instagram + Facebook organic posts, plus one WhatsApp message to a waitlist of ~300 pet-expo signups.
-- **Budget:** Not specified — assume mostly organic (no significant paid spend). [TODO: confirm any paid budget with Sam]
-- **Do's / don'ts / compliance notes:** No fabricated reviews, testimonials, awards, or proof — the brand is brand new and has none yet. Booking is through the website; use the real link once supplied (do not invent a URL).
+- **Where it runs (social platforms, WhatsApp list, etc.):** Mostly organic social (platforms not specified — [TODO: confirm which platforms, e.g. Instagram/X/Facebook, from Priya]) plus one WhatsApp broadcast to the ~800-person subscriber list.
+- **Budget:** Not specified — assume mostly organic (no significant paid spend). [TODO: confirm any paid budget with Priya]
+- **Do's / don'ts / compliance notes:** No hype language and no superlative/unverifiable claims (e.g., no "world's best"). No fabricated stats, testimonials, awards, or quotes — brand has supplied none yet. Use the real order link once supplied by Priya; do not invent a URL.
 
 ---
 
