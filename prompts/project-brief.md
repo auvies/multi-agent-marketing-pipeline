@@ -56,6 +56,11 @@
 - **Outside-Khanewal shipping/transit time (real, confirmed by owner), added on top of processing time above:**
   - Destination **less than 100 km** from Khanewal — **1 working day**.
   - Destination **more than 100 km** from Khanewal — **2 to 3 working days**.
+- **Urgent/rush delivery (real, confirmed by owner):**
+  - Available **only within Khanewal city**.
+  - Available **only for orders under 6 kg**.
+  - Extra charge: **Rs. 50/kg**, on top of the normal item price (no separate delivery fee, since Khanewal city is already free — this surcharge replaces that).
+  - [TODO: the actual turnaround time for "urgent" hasn't been given yet — confirm how fast (e.g., 30 minutes, 1 hour) so the shop can promise a concrete time to customers.]
 - **Payment methods (real, confirmed by owner):**
   - Cash on Delivery
   - EasyPaisa — 0335-1600866
