@@ -16,3 +16,18 @@ Desktop.ini
 *~
 .vscode/
 .idea/
+
+# Backend
+backend/node_modules/
+backend/.env
+backend/.env.local
+backend/.env.*.local
+backend/dist/
+backend/build/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+.env
+.env.local

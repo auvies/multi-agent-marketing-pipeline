@@ -1,0 +1,10 @@
+{
+  "name": "campaign-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "homepage": "./",
+  "scripts": {
+    "start": "python -m http.server 3000",
+    "build": "echo 'No build needed for static HTML'"
+  }
+}
