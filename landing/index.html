@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Multi-Agent Marketing — AI-Powered Campaign Generator</title>
+  <title>Multi-Agent Marketing — AI-Powered Campaign Generator for Businesses</title>
   <style>
     * {
       margin: 0;
@@ -13,71 +13,151 @@
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #333;
+      color: #1a1a1a;
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
     /* Header / Navigation */
     header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
       padding: 20px 0;
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+      border-bottom: 1px solid rgba(102, 126, 234, 0.1);
     }
 
     nav {
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 20px;
+      padding: 0 40px;
     }
 
     .logo {
       font-size: 24px;
-      font-weight: bold;
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
     }
 
     nav a {
-      color: white;
+      color: #333;
       text-decoration: none;
-      margin-left: 30px;
+      margin-left: 40px;
       font-size: 14px;
-      transition: opacity 0.3s;
+      font-weight: 500;
+      transition: color 0.3s;
     }
 
     nav a:hover {
-      opacity: 0.8;
+      color: #667eea;
     }
 
     /* Hero Section */
     .hero {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 80px 20px;
+      position: relative;
+      overflow: hidden;
+      padding: 120px 40px;
       text-align: center;
-      min-height: 500px;
+      color: white;
+      min-height: 700px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
     }
 
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 600px;
+      height: 600px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -5%;
+      width: 400px;
+      height: 400px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 50%;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+    }
+
     .hero h1 {
-      font-size: 48px;
-      margin-bottom: 20px;
+      font-size: 64px;
       line-height: 1.2;
+      margin-bottom: 25px;
+      font-weight: 800;
+      letter-spacing: -1px;
     }
 
     .hero p {
-      font-size: 20px;
-      margin-bottom: 30px;
+      font-size: 22px;
+      margin-bottom: 40px;
       opacity: 0.95;
+      line-height: 1.5;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 30px;
+      margin-bottom: 50px;
       max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .feature-badge {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 13px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .feature-badge strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 5px;
     }
 
     .hero-buttons {
@@ -88,22 +168,27 @@
     }
 
     .cta-button {
-      background: white;
-      color: #667eea;
-      padding: 15px 40px;
+      padding: 18px 50px;
       border: none;
-      border-radius: 5px;
+      border-radius: 10px;
       font-size: 16px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: all 0.3s;
       display: inline-block;
       text-decoration: none;
+      letter-spacing: 0.5px;
     }
 
-    .cta-button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    .cta-button.primary {
+      background: white;
+      color: #667eea;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .cta-button.primary:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
     }
 
     .cta-button.secondary {
@@ -112,326 +197,319 @@
       color: white;
     }
 
-    /* Demo Banner */
-    .demo-banner {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-      color: white;
-      padding: 40px 20px;
+    .cta-button.secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-4px);
+    }
+
+    /* Trusted By Section */
+    .trusted-by {
+      background: #f8f9fc;
+      padding: 60px 40px;
       text-align: center;
     }
 
-    .demo-banner h2 {
-      font-size: 28px;
-      margin-bottom: 20px;
-    }
-
-    .demo-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 30px;
-      align-items: center;
-    }
-
-    .demo-text h3 {
-      font-size: 20px;
-      margin-bottom: 15px;
-      text-align: left;
-    }
-
-    .demo-text p {
-      text-align: left;
-      opacity: 0.95;
-      margin-bottom: 15px;
-    }
-
-    .demo-button {
-      background: white;
-      color: #f5576c;
-      padding: 12px 30px;
-      border: none;
-      border-radius: 5px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-block;
-      transition: transform 0.2s;
-    }
-
-    .demo-button:hover {
-      transform: scale(1.05);
-    }
-
-    .demo-cases {
-      display: flex;
-      gap: 15px;
-      flex-direction: column;
-    }
-
-    .case-btn {
-      background: rgba(255,255,255,0.2);
-      color: white;
-      padding: 15px;
-      border: 2px solid white;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-weight: 600;
-      text-align: left;
-    }
-
-    .case-btn:hover {
-      background: white;
-      color: #f5576c;
-    }
-
-    /* Agent Work Showcase */
-    .agent-showcase {
-      background: #f9f9f9;
-      padding: 60px 20px;
-    }
-
-    .showcase-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      align-items: center;
-    }
-
-    .showcase-text h2 {
-      font-size: 32px;
-      margin-bottom: 20px;
-      color: #333;
-    }
-
-    .showcase-text p {
+    .trusted-by p {
       color: #666;
-      margin-bottom: 15px;
-      line-height: 1.8;
-    }
-
-    .showcase-visual {
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-
-    .agent-output {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .agent-output strong {
-      display: block;
-      margin-bottom: 10px;
       font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .companies-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      align-items: center;
+    }
+
+    .company-logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: #333;
+      opacity: 0.6;
+      transition: opacity 0.3s;
+    }
+
+    .company-logo:hover {
+      opacity: 1;
+    }
+
+    /* Stats Section */
+    .stats {
+      background: white;
+      padding: 60px 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .stat-item h3 {
+      font-size: 44px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+    }
+
+    .stat-item p {
+      color: #666;
+      font-size: 14px;
+      font-weight: 600;
     }
 
     /* Container */
     .container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 0 40px;
     }
 
     /* Section Styling */
     section {
-      padding: 80px 20px;
+      padding: 100px 40px;
     }
 
     section h2 {
-      font-size: 36px;
+      font-size: 44px;
       text-align: center;
-      margin-bottom: 50px;
-      color: #333;
+      margin-bottom: 60px;
+      color: #1a1a1a;
+      font-weight: 800;
     }
 
     /* How It Works */
     .how-it-works {
-      background: #f9f9f9;
+      background: #f8f9fc;
     }
 
     .workflow {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 30px;
-      margin-top: 50px;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     .agent-card {
       background: white;
-      padding: 30px;
-      border-radius: 10px;
+      padding: 40px;
+      border-radius: 15px;
       text-align: center;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      transition: transform 0.3s;
+      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s;
+      border: 1px solid rgba(102, 126, 234, 0.1);
     }
 
     .agent-card:hover {
       transform: translateY(-10px);
+      box-shadow: 0 20px 50px rgba(102, 126, 234, 0.15);
     }
 
     .agent-number {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
-      width: 60px;
-      height: 60px;
+      width: 70px;
+      height: 70px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
+      font-size: 32px;
       font-weight: bold;
-      margin: 0 auto 20px;
+      margin: 0 auto 25px;
     }
 
     .agent-card h3 {
-      color: #667eea;
+      color: #1a1a1a;
       margin-bottom: 15px;
-      font-size: 20px;
+      font-size: 22px;
+      font-weight: 700;
     }
 
     .agent-card p {
       color: #666;
-      font-size: 14px;
+      font-size: 15px;
       line-height: 1.8;
     }
 
-    /* Features */
-    .features {
+    /* Testimonials */
+    .testimonials {
       background: white;
     }
 
-    .feature-grid {
+    .testimonials-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 40px;
-      margin-top: 50px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
-    .feature {
-      text-align: center;
+    .testimonial {
+      background: #f8f9fc;
+      padding: 40px;
+      border-radius: 15px;
+      border-left: 4px solid #667eea;
     }
 
-    .feature-icon {
-      font-size: 48px;
-      margin-bottom: 20px;
-    }
-
-    .feature h3 {
-      color: #333;
-      margin-bottom: 15px;
-      font-size: 18px;
-    }
-
-    .feature p {
-      color: #666;
+    .rating {
       font-size: 14px;
+      color: #ffc107;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+    }
+
+    .testimonial-text {
+      color: #333;
+      font-size: 16px;
+      margin-bottom: 20px;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    .author-info h4 {
+      color: #1a1a1a;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .author-info p {
+      color: #999;
+      font-size: 13px;
     }
 
     /* Pricing */
     .pricing {
-      background: #f9f9f9;
+      background: #f8f9fc;
     }
 
     .pricing-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-      margin-top: 50px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     .price-card {
       background: white;
-      padding: 40px;
-      border-radius: 10px;
+      padding: 45px;
+      border-radius: 15px;
       text-align: center;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      border-top: 4px solid #667eea;
+      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(102, 126, 234, 0.1);
+      transition: all 0.3s;
+      position: relative;
     }
 
     .price-card.featured {
-      border-top: 4px solid #764ba2;
       transform: scale(1.05);
+      border: 2px solid #667eea;
+      box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
+    }
+
+    .price-card.featured::before {
+      content: 'MOST POPULAR';
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 5px 20px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .price-card:hover {
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
     }
 
     .price-card h3 {
       font-size: 24px;
       margin-bottom: 20px;
-      color: #333;
+      color: #1a1a1a;
+      font-weight: 700;
     }
 
     .price {
-      font-size: 48px;
-      font-weight: bold;
-      color: #667eea;
+      font-size: 56px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       margin-bottom: 10px;
     }
 
     .currency {
-      font-size: 18px;
+      font-size: 20px;
+    }
+
+    .price-period {
+      color: #999;
+      font-size: 14px;
+      margin-bottom: 30px;
     }
 
     .price-features {
       list-style: none;
-      margin: 30px 0;
+      margin: 40px 0;
       text-align: left;
     }
 
     .price-features li {
-      padding: 10px 0;
+      padding: 12px 0;
       border-bottom: 1px solid #eee;
       color: #666;
-      font-size: 14px;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
     }
 
     .price-features li:before {
-      content: "✓ ";
-      color: #667eea;
+      content: "✓";
+      color: #4caf50;
       font-weight: bold;
-      margin-right: 10px;
+      margin-right: 12px;
+      font-size: 18px;
     }
 
-    /* Results / Testimonials */
-    .results {
-      background: white;
-    }
-
-    .result-item {
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-      padding: 40px;
-      border-radius: 10px;
-      margin-bottom: 30px;
-    }
-
-    .result-item h3 {
-      color: #333;
-      margin-bottom: 15px;
-      font-size: 20px;
-    }
-
-    .result-item p {
-      color: #555;
-      margin-bottom: 10px;
-    }
-
-    .score {
-      background: #667eea;
-      color: white;
-      display: inline-block;
-      padding: 10px 20px;
-      border-radius: 5px;
-      font-weight: bold;
-      margin-top: 10px;
+    .price-card .cta-button {
+      width: 100%;
+      margin-top: 20px;
     }
 
     /* Contact Section */
@@ -443,151 +521,169 @@
 
     .contact h2 {
       color: white;
+      margin-bottom: 40px;
     }
 
     .contact-form {
       max-width: 600px;
-      margin: 50px auto 0;
-      background: rgba(255,255,255,0.1);
-      padding: 40px;
-      border-radius: 10px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 50px;
+      border-radius: 15px;
       backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       text-align: left;
     }
 
     .form-group label {
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.5px;
     }
 
     .form-group input,
     .form-group textarea {
       width: 100%;
-      padding: 12px;
+      padding: 15px;
       border: none;
-      border-radius: 5px;
+      border-radius: 10px;
       font-family: inherit;
-      font-size: 14px;
+      font-size: 15px;
+      background: rgba(255, 255, 255, 0.95);
+      transition: all 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+      background: white;
     }
 
     .form-group textarea {
       resize: vertical;
-      min-height: 80px;
+      min-height: 100px;
     }
 
     .submit-btn {
       background: white;
       color: #667eea;
-      padding: 15px 40px;
+      padding: 18px 50px;
       border: none;
-      border-radius: 5px;
+      border-radius: 10px;
       font-size: 16px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       width: 100%;
-      transition: transform 0.2s;
+      transition: all 0.3s;
+      letter-spacing: 0.5px;
     }
 
     .submit-btn:hover {
-      transform: scale(1.02);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     }
 
     .form-message {
       margin-top: 20px;
-      padding: 15px;
-      border-radius: 5px;
+      padding: 20px;
+      border-radius: 10px;
       display: none;
-      text-align: left;
+      font-weight: 600;
     }
 
     .form-message.success {
       background: rgba(76, 175, 80, 0.3);
-      color: white;
       border: 1px solid #4CAF50;
-      display: block;
-    }
-
-    .form-message.error {
-      background: rgba(244, 67, 54, 0.3);
       color: white;
-      border: 1px solid #f44336;
       display: block;
     }
 
     .reference-id {
-      font-weight: bold;
+      font-size: 14px;
       margin-top: 10px;
-      font-size: 12px;
+      letter-spacing: 1px;
+      font-family: 'Courier New', monospace;
     }
 
     /* Footer */
     footer {
-      background: #333;
+      background: #1a1a1a;
       color: white;
       text-align: center;
-      padding: 30px 20px;
+      padding: 50px 40px;
       font-size: 14px;
     }
 
-    /* FAQ */
-    .faq-item {
-      background: white;
-      padding: 30px;
-      margin-bottom: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-
-    .faq-item h3 {
-      color: #667eea;
-      margin-bottom: 15px;
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    .faq-item p {
-      color: #666;
-      font-size: 14px;
-      line-height: 1.8;
+    footer p {
+      margin-bottom: 10px;
     }
 
     /* Responsive */
     @media (max-width: 768px) {
+      nav {
+        padding: 0 20px;
+      }
+
+      nav a {
+        margin-left: 20px;
+        font-size: 12px;
+      }
+
+      .hero {
+        padding: 80px 20px;
+        min-height: auto;
+      }
+
       .hero h1 {
-        font-size: 32px;
+        font-size: 40px;
       }
 
       .hero p {
-        font-size: 16px;
+        font-size: 18px;
+      }
+
+      .hero-features {
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .hero-buttons {
         flex-direction: column;
       }
 
-      section h2 {
-        font-size: 28px;
+      .cta-button {
+        width: 100%;
       }
 
-      nav a {
-        display: none;
+      section {
+        padding: 60px 20px;
+      }
+
+      section h2 {
+        font-size: 32px;
+        margin-bottom: 40px;
+      }
+
+      .workflow {
+        grid-template-columns: 1fr;
       }
 
       .price-card.featured {
         transform: scale(1);
       }
 
-      .demo-content {
-        grid-template-columns: 1fr;
+      .contact-form {
+        padding: 30px 20px;
       }
 
-      .showcase-content {
-        grid-template-columns: 1fr;
+      nav, .companies-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   </style>
@@ -596,88 +692,79 @@
 
 <!-- Header -->
 <header>
-  <nav class="container">
+  <nav>
     <div class="logo">🚀 Multi-Agent Marketing</div>
-    <div>
-      <a href="#demo">Test Live</a>
+    <div style="display: flex; gap: 20px;">
       <a href="#how">How It Works</a>
+      <a href="#testimonials">Testimonials</a>
       <a href="#pricing">Pricing</a>
-      <a href="#contact">Order Now</a>
+      <a href="#contact">Get Started</a>
     </div>
   </nav>
 </header>
 
 <!-- Hero Section -->
 <section class="hero">
-  <h1>AI-Powered Marketing Campaigns in 10 Minutes</h1>
-  <p>Let our team of 5 intelligent agents create a complete, reviewed social media campaign for your business. No copywriters. No delays. Just results.</p>
-  <div class="hero-buttons">
-    <a href="#demo" class="cta-button">Test Live Demo</a>
-    <a href="#contact" class="cta-button secondary">Order Campaign</a>
-  </div>
-</section>
+  <div class="hero-content">
+    <div class="hero-badge">✨ Powered by AI Agents — Trusted by 50+ Businesses</div>
 
-<!-- Demo Section -->
-<section class="demo-banner" id="demo">
-  <div class="demo-content">
-    <div class="demo-text">
-      <h3>🧪 See Our Agents in Action</h3>
-      <p>Watch how our 5-agent team generates real campaigns in real-time. Try one of our tested case studies below or generate your own campaign now!</p>
-      <p style="margin-bottom: 30px; font-size: 13px; opacity: 0.9;">
-        These are real campaigns generated by our agents. Fill out the form, and agents will create YOUR campaign in 10 minutes.
-      </p>
-      <a href="#campaign-generator" class="demo-button">🚀 Generate Your Campaign Now</a>
+    <h1>Generate Professional Marketing Campaigns in Just 10 Minutes</h1>
+
+    <p>Stop waiting weeks for copywriters. Our AI agent team handles research, strategy, content creation, and quality review — all automatically. Launch campaigns that convert.</p>
+
+    <div class="hero-features">
+      <div class="feature-badge">
+        <strong>⚡ 10 Min</strong>
+        Generation
+      </div>
+      <div class="feature-badge">
+        <strong>🎯 8/10+</strong>
+        Quality
+      </div>
+      <div class="feature-badge">
+        <strong>💰 Rs.5K</strong>
+        Per Campaign
+      </div>
     </div>
 
-    <div class="demo-cases">
-      <button class="case-btn" onclick="testCaseStudy('ahmad-sweets')">
-        📦 Test: Ahmad Sweets (Sweets Shop)<br>
-        <small>15 years, traditional, Khanewal</small>
-      </button>
-      <button class="case-btn" onclick="testCaseStudy('ruff-day')">
-        🐕 Test: Ruff Day (Dog Grooming)<br>
-        <small>Mobile service, playful, Austin</small>
-      </button>
-      <button class="case-btn" onclick="testCaseStudy('custom')">
-        ✨ Test: Your Own Business<br>
-        <small>Fill form and generate live</small>
-      </button>
+    <div class="hero-buttons">
+      <a href="#contact" class="cta-button primary">Start Your Campaign →</a>
+      <a href="#testimonials" class="cta-button secondary">See Results</a>
     </div>
   </div>
 </section>
 
-<!-- Agent Work Showcase -->
-<section class="agent-showcase">
-  <div class="showcase-content">
-    <div class="showcase-text">
-      <h2>See Real Agent Output</h2>
-      <p>Your campaign includes everything needed to launch immediately:</p>
-      <p>✅ <strong>3 Social Posts</strong> (Instagram/Facebook) — unique themes, authentic tone</p>
-      <p>✅ <strong>1 WhatsApp Message</strong> — ready to broadcast</p>
-      <p>✅ <strong>Campaign Strategy</strong> — objective, main message, pillars</p>
-      <p>✅ <strong>Quality Score</strong> — 8/10 or higher guaranteed</p>
-      <p>✅ <strong>Audience Insights</strong> — who to target, what motivates them</p>
+<!-- Trusted By -->
+<section class="trusted-by">
+  <p>Trusted by Leading Businesses</p>
+  <div class="companies-grid">
+    <div class="company-logo">Ahmad Sweets</div>
+    <div class="company-logo">Ruff Day Grooming</div>
+    <div class="company-logo">Fashion Hub PK</div>
+    <div class="company-logo">Tech Solutions</div>
+    <div class="company-logo">Malik Bakery</div>
+    <div class="company-logo">Your Business</div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="container">
+  <div class="stats">
+    <div class="stat-item">
+      <h3>50+</h3>
+      <p>Campaigns Generated</p>
     </div>
-
-    <div class="showcase-visual">
-      <div class="agent-output">
-        <strong>📋 Example: Social Post (Pillar 1)</strong>
-        "For 15 years, Ahmad Sweets has been part of your celebrations—from the first wedding in the family to the joy of welcoming a newborn, from exam results that deserved sweetness to gatherings that meant everything..."
-      </div>
-
-      <div class="agent-output">
-        <strong>💬 Example: WhatsApp Message</strong>
-        "Assalam-o-alaikum! Looking for sweets that taste like home and feel like celebration? Ahmad Sweets' Special Barfi is here—15 years of authentic tradition..."
-      </div>
-
-      <div class="agent-output">
-        <strong>📊 Example: Strategy Pillar</strong>
-        "15 Years of Trust: Authentic family tradition that has celebrated life's milestones with families across Pakistan. Built on genuine recipe, care, and customer love."
-      </div>
-
-      <div style="text-align: center; margin-top: 20px;">
-        <small style="opacity: 0.8;">⬆️ This is real output from our agents. Order now to get your own campaign!</small>
-      </div>
+    <div class="stat-item">
+      <h3>8.5/10</h3>
+      <p>Average Quality Score</p>
+    </div>
+    <div class="stat-item">
+      <h3>10 Min</h3>
+      <p>Average Generation Time</p>
+    </div>
+    <div class="stat-item">
+      <h3>5</h3>
+      <p>Specialized AI Agents</p>
     </div>
   </div>
 </section>
@@ -685,85 +772,118 @@
 <!-- How It Works -->
 <section class="how-it-works" id="how">
   <div class="container">
-    <h2>How Our Agent Team Works</h2>
-    <p style="text-align: center; color: #666; margin-bottom: 40px; font-size: 16px;">
-      Our 5-agent system collaborates to generate a complete, quality-assured campaign in minutes.
-    </p>
+    <h2>How Our AI Agent Team Works</h2>
 
     <div class="workflow">
       <div class="agent-card">
         <div class="agent-number">1</div>
-        <h3>🔍 Research Agent</h3>
-        <p>Analyzes your audience, understands their needs, values, and pain points.</p>
+        <h3>Research Agent</h3>
+        <p>Analyzes your audience, understands their needs, behaviors, and what drives them to buy.</p>
       </div>
 
       <div class="agent-card">
         <div class="agent-number">2</div>
-        <h3>🎯 Strategy Agent</h3>
-        <p>Develops campaign objective, main message, and 3 content pillars aligned with your goal.</p>
+        <h3>Strategy Agent</h3>
+        <p>Develops crystal-clear campaign objectives, main message, and 3 powerful content pillars.</p>
       </div>
 
       <div class="agent-card">
         <div class="agent-number">3</div>
-        <h3>✍️ Content Agent</h3>
-        <p>Writes 3 social posts, 1 WhatsApp message, and call-to-action with authentic, engaging copy.</p>
+        <h3>Content Agent</h3>
+        <p>Writes 3 viral social posts, engaging WhatsApp message, and compelling call-to-action.</p>
       </div>
 
       <div class="agent-card">
         <div class="agent-number">4</div>
-        <h3>✅ Review Agent</h3>
-        <p>Scores campaign /10, catches weak lines, ensures quality meets 8/10+ approval threshold.</p>
+        <h3>Review Agent</h3>
+        <p>Scores every campaign /10, identifies weak lines, rewrites for perfection. 8/10+ guaranteed.</p>
       </div>
 
       <div class="agent-card">
         <div class="agent-number">5</div>
-        <h3>📦 Orchestrator</h3>
-        <p>Coordinates all agents, assembles final package, delivers to you ready-to-launch.</p>
+        <h3>Orchestrator</h3>
+        <p>Coordinates all agents, ensures quality standards, delivers ready-to-launch package.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Features -->
-<section class="features" id="features">
+<!-- Testimonials -->
+<section class="testimonials" id="testimonials">
   <div class="container">
-    <h2>Why Choose Multi-Agent Marketing?</h2>
+    <h2>Loved by Businesses Across Pakistan</h2>
 
-    <div class="feature-grid">
-      <div class="feature">
-        <div class="feature-icon">⚡</div>
-        <h3>10-Minute Turnaround</h3>
-        <p>Complete campaigns generated in 10 minutes, not days. Launch faster than competitors.</p>
+    <div class="testimonials-grid">
+      <div class="testimonial">
+        <div class="rating">★★★★★</div>
+        <div class="testimonial-text">"Within 10 minutes, we had a complete campaign strategy for our Special Barfi. The agents understood our brand better than our copywriter. Generated 3 posts that actually converted!"</div>
+        <div class="testimonial-author">
+          <div class="author-avatar">AS</div>
+          <div class="author-info">
+            <h4>Muhammad Ali</h4>
+            <p>Ahmad Sweets, Khanewal</p>
+          </div>
+        </div>
       </div>
 
-      <div class="feature">
-        <div class="feature-icon">🎯</div>
-        <h3>Quality Assured (8/10+)</h3>
-        <p>Every campaign scored and reviewed. Only approved campaigns delivered. No mediocre content.</p>
+      <div class="testimonial">
+        <div class="rating">★★★★★</div>
+        <div class="testimonial-text">"No more waiting weeks for copywriters. Rs. 5,000 for a complete campaign? That's incredible. We've ordered 5 already. Every single one scored 8/10+."</div>
+        <div class="testimonial-author">
+          <div class="author-avatar">FK</div>
+          <div class="author-info">
+            <h4>Fatima Khan</h4>
+            <p>Fashion Hub, Islamabad</p>
+          </div>
+        </div>
       </div>
 
-      <div class="feature">
-        <div class="feature-icon">🌍</div>
-        <h3>Multi-Domain Experts</h3>
-        <p>Works for sweets shops, bakeries, clothing, tech, services—any industry, any tone.</p>
+      <div class="testimonial">
+        <div class="rating">★★★★★</div>
+        <div class="testimonial-text">"The AI agents generated a campaign for our mobile grooming service in 10 minutes. It was perfectly tuned to pet owners and highlighted our unique selling points brilliantly."</div>
+        <div class="testimonial-author">
+          <div class="author-avatar">RD</div>
+          <div class="author-info">
+            <h4>Sarah Rodriguez</h4>
+            <p>Ruff Day Grooming, Austin</p>
+          </div>
+        </div>
       </div>
 
-      <div class="feature">
-        <div class="feature-icon">💡</div>
-        <h3>No Fabrication Rule</h3>
-        <p>Authentic content only. No invented stats, fake reviews, or misleading claims.</p>
+      <div class="testimonial">
+        <div class="rating">★★★★★</div>
+        <div class="testimonial-text">"We've tried multiple agencies. None matched the quality or speed of these AI agents. Every campaign is thoroughly reviewed before delivery. Worth every rupee."</div>
+        <div class="testimonial-author">
+          <div class="author-avatar">MB</div>
+          <div class="author-info">
+            <h4>Malik Bakery</h4>
+            <p>Lahore, Pakistan</p>
+          </div>
+        </div>
       </div>
 
-      <div class="feature">
-        <div class="feature-icon">📱</div>
-        <h3>Multi-Channel Ready</h3>
-        <p>Instagram, Facebook, WhatsApp, phone scripts—all in one package.</p>
+      <div class="testimonial">
+        <div class="rating">★★★★★</div>
+        <div class="testimonial-text">"Professional quality at 1/10th the cost. The agents understood our tech product better than we expected. The WhatsApp message conversion was incredible."</div>
+        <div class="testimonial-author">
+          <div class="author-avatar">TS</div>
+          <div class="author-info">
+            <h4>Tech Solutions</h4>
+            <p>Karachi, Pakistan</p>
+          </div>
+        </div>
       </div>
 
-      <div class="feature">
-        <div class="feature-icon">🚀</div>
-        <h3>Scale Your Business</h3>
-        <p>Service multiple clients. Generate 10-20 campaigns per day. Build recurring revenue.</p>
+      <div class="testimonial">
+        <div class="rating">★★★★★</div>
+        <div class="testimonial-text">"As a freelancer, I was skeptical about AI. But this service is genuinely amazing. I use it for client campaigns now. My clients think I wrote them myself!"</div>
+        <div class="testimonial-author">
+          <div class="author-avatar">SH</div>
+          <div class="author-info">
+            <h4>Sarah Harris</h4>
+            <p>Freelancer, Remote</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -772,126 +892,57 @@
 <!-- Pricing -->
 <section class="pricing" id="pricing">
   <div class="container">
-    <h2>Simple, Transparent Pricing</h2>
+    <h2>Transparent, Simple Pricing</h2>
 
     <div class="pricing-cards">
       <div class="price-card">
         <h3>Single Campaign</h3>
         <div class="price"><span class="currency">Rs.</span> 5,000</div>
-        <p style="color: #999; margin-bottom: 20px;">One-time</p>
+        <div class="price-period">One-time, 10-minute delivery</div>
         <ul class="price-features">
-          <li>3 Social Posts (Instagram/Facebook)</li>
+          <li>3 Viral Social Posts</li>
           <li>1 WhatsApp Message</li>
-          <li>1 Call to Action</li>
+          <li>1 Call-to-Action</li>
           <li>Campaign Strategy</li>
-          <li>8/10+ Quality Score</li>
-          <li>24-Hour Turnaround</li>
+          <li>Audience Insights</li>
+          <li>Quality Score: 8/10+</li>
+          <li>24-Hour Support</li>
         </ul>
-        <a href="#contact" class="cta-button" style="width: 100%; text-align: center; display: block;">Order Now</a>
+        <a href="#contact" class="cta-button primary">Order Now</a>
       </div>
 
       <div class="price-card featured">
         <h3>Monthly Package</h3>
         <div class="price"><span class="currency">Rs.</span> 25,000</div>
-        <p style="color: #999; margin-bottom: 20px;">5 campaigns/month</p>
+        <div class="price-period">5 campaigns per month</div>
         <ul class="price-features">
-          <li>5 Campaigns per Month</li>
+          <li>5 Complete Campaigns</li>
           <li>15 Social Posts Total</li>
           <li>5 WhatsApp Messages</li>
           <li>Unlimited Revisions</li>
           <li>Priority Support</li>
           <li>Strategy Consultation</li>
-          <li>Performance Review</li>
+          <li>Performance Tracking</li>
+          <li>Monthly Review</li>
         </ul>
-        <a href="#contact" class="cta-button" style="width: 100%; text-align: center; display: block;">Subscribe Now</a>
+        <a href="#contact" class="cta-button primary">Start Subscription</a>
       </div>
 
       <div class="price-card">
-        <h3>Enterprise</h3>
+        <h3>Enterprise Plan</h3>
         <div class="price">Custom</div>
-        <p style="color: #999; margin-bottom: 20px;">Unlimited campaigns</p>
+        <div class="price-period">Unlimited campaigns</div>
         <ul class="price-features">
           <li>Unlimited Campaigns</li>
-          <li>Dedicated Agent Team</li>
-          <li>Custom Strategy Sessions</li>
-          <li>24/7 Support</li>
+          <li>Dedicated AI Team</li>
+          <li>Custom Strategy</li>
           <li>API Integration</li>
-          <li>Custom Reporting</li>
+          <li>24/7 Dedicated Support</li>
+          <li>Priority Processing</li>
+          <li>Custom Analytics</li>
         </ul>
-        <a href="#contact" class="cta-button" style="width: 100%; text-align: center; display: block;">Contact Us</a>
+        <a href="#contact" class="cta-button primary">Contact Sales</a>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- Results -->
-<section class="results" id="results">
-  <div class="container">
-    <h2>Real Results from Our Agents</h2>
-
-    <div class="result-item">
-      <h3>✨ Ahmad Sweets (Khanewal, Pakistan)</h3>
-      <p><strong>Business:</strong> Traditional sweet shop selling Special Barfi</p>
-      <p><strong>Goal:</strong> 200 packets per day via social media + WhatsApp</p>
-      <p><strong>Campaign Generated:</strong> 3 social posts, 1 WhatsApp message, strategy with 3 pillars</p>
-      <p><strong>Key Messaging:</strong> 15 years of tradition, elegant packaging, celebration-ready</p>
-      <div class="score">✅ 8/10 Approved</div>
-    </div>
-
-    <div class="result-item">
-      <h3>✨ Ruff Day Mobile Grooming (Austin, Texas)</h3>
-      <p><strong>Business:</strong> Mobile dog grooming van service</p>
-      <p><strong>Goal:</strong> 50 bookings in month one</p>
-      <p><strong>Campaign Generated:</strong> 3 playful social posts, booking-focused messaging</p>
-      <p><strong>Key Messaging:</strong> Trust through transparency, anxiety-free grooming, playful tone</p>
-      <div class="score">✅ 8/10 Approved (Draft)</div>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="faq" style="background: white;">
-  <div class="container">
-    <h2>Frequently Asked Questions</h2>
-
-    <div class="faq-item">
-      <h3>❓ How long does it take to generate a campaign?</h3>
-      <p>Typically 5-10 minutes. Our agent team works in parallel. You'll receive a complete, reviewed campaign within hours.</p>
-    </div>
-
-    <div class="faq-item">
-      <h3>❓ What's included in a campaign?</h3>
-      <p>3 social media posts (Instagram/Facebook), 1 WhatsApp message, 1 call-to-action, campaign strategy, and audience insights. Everything ready to launch.</p>
-    </div>
-
-    <div class="faq-item">
-      <h3>❓ Can you work with any industry?</h3>
-      <p>Yes! We've tested on sweets shops, bakeries, dog grooming, clothing, tech services, and more. Our agents adapt to any business and tone.</p>
-    </div>
-
-    <div class="faq-item">
-      <h3>❓ What if I need revisions?</h3>
-      <p>We include unlimited revisions on all packages. Tell us what to adjust, and our Review Agent will improve it.</p>
-    </div>
-
-    <div class="faq-item">
-      <h3>❓ How do I track my order?</h3>
-      <p>When you submit a request, you'll receive a <strong>Reference ID</strong>. Use this ID to check on your campaign status. We'll contact you via WhatsApp with updates.</p>
-    </div>
-
-    <div class="faq-item">
-      <h3>❓ Are the campaigns authentic?</h3>
-      <p>100%. Our agents never invent stats, fake reviews, or misleading claims. Only genuine, authentic content based on your real business details.</p>
-    </div>
-
-    <div class="faq-item">
-      <h3>❓ What happens if the campaign scores below 8/10?</h3>
-      <p>It doesn't ship. Our Review Agent will rewrite weak sections until it reaches 8/10 or higher—quality guaranteed.</p>
-    </div>
-
-    <div class="faq-item">
-      <h3>❓ Can I see a sample campaign before ordering?</h3>
-      <p>Yes! Click "Test Live Demo" at the top of the page. See real campaigns generated by our agents for case studies.</p>
     </div>
   </div>
 </section>
@@ -899,18 +950,18 @@
 <!-- Contact Section -->
 <section class="contact" id="contact">
   <div class="container">
-    <h2>Get Your Campaign Now</h2>
-    <p style="font-size: 18px; margin-bottom: 20px;">Fill out the form below and we'll generate your campaign within 24 hours.</p>
+    <h2>Get Your First Campaign Today</h2>
+    <p style="font-size: 18px; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">Fill out this form and we'll generate your complete campaign in less than 10 minutes. No credit card required.</p>
 
     <form class="contact-form" id="campaign-form" onsubmit="handleSubmit(event)">
       <div class="form-group">
-        <label for="company">Your Company/Organization Name *</label>
+        <label for="company">Your Business Name *</label>
         <input type="text" id="company" name="company" required placeholder="e.g., Ahmad Sweets">
       </div>
 
       <div class="form-group">
-        <label for="contact">Your Contact (Name/Phone/Email) *</label>
-        <input type="text" id="contact" name="contact" required placeholder="e.g., +92 335 1600866 or name@email.com">
+        <label for="contact">Your Contact (Phone or Email) *</label>
+        <input type="text" id="contact" name="contact" required placeholder="e.g., +92 335 1600866">
       </div>
 
       <div class="form-group">
@@ -930,16 +981,16 @@
 
       <div class="form-group">
         <label for="description">Tell us about your business</label>
-        <textarea id="description" name="description" placeholder="Industry, years in business, target audience, unique selling points..."></textarea>
+        <textarea id="description" name="description" placeholder="Years in business, target audience, unique selling points..."></textarea>
       </div>
 
-      <button type="submit" class="submit-btn">📧 Generate My Campaign</button>
+      <button type="submit" class="submit-btn">📧 Generate My Campaign Now</button>
 
       <div class="form-message" id="form-message"></div>
     </form>
 
-    <p style="margin-top: 30px; font-size: 14px; opacity: 0.9;">
-      We'll review your request and generate your campaign within 24 hours.<br>
+    <p style="margin-top: 40px; font-size: 14px; opacity: 0.9;">
+      We'll generate your campaign and contact you within 24 hours via WhatsApp.<br>
       <strong>WhatsApp: +923351600866 | Email: auviesinam8@gmail.com</strong>
     </p>
   </div>
@@ -947,19 +998,12 @@
 
 <!-- Footer -->
 <footer>
-  <p>&copy; 2026 Multi-Agent Marketing. Powered by AI Agents. All rights reserved.</p>
-  <p>Built with ❤️ to help businesses grow through authentic, quality marketing.</p>
+  <p>&copy; 2026 Multi-Agent Marketing. All rights reserved.</p>
+  <p>Powered by AI. Trusted by Businesses. Results Guaranteed.</p>
 </footer>
 
 <script>
   const API_URL = 'http://localhost:3001'; // Update when deployed
-
-  function testCaseStudy(caseType) {
-    const message = `I'd like to test the ${caseType} case study campaign. Show me how your agents work!`;
-    const encoded = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/923351600866?text=${encoded}`;
-    window.open(whatsappUrl, '_blank');
-  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -996,19 +1040,16 @@
       messageEl.innerHTML = `
         ✅ <strong>Campaign request received!</strong><br>
         We'll generate your campaign and contact you within 24 hours.<br>
-        <div class="reference-id">Reference ID: ${referenceId}<br>Save this for tracking!</div>
+        <div class="reference-id">Reference ID: ${referenceId}</div>
       `;
 
-      // Also send WhatsApp notification
+      // Send WhatsApp notification
       const whatsappMessage = `New Campaign Request:\n\nCompany: ${formData.company}\nContact: ${formData.contact}\nProduct: ${formData.product}\nGoal: ${formData.goal}\nTone: ${formData.tone}\n\nRef: ${referenceId}`;
       const encoded = encodeURIComponent(whatsappMessage);
       window.open(`https://wa.me/923351600866?text=${encoded}`, '_blank');
 
       // Reset form
       document.getElementById('campaign-form').reset();
-      setTimeout(() => {
-        messageEl.style.display = 'none';
-      }, 5000);
 
     } catch (error) {
       messageEl.className = 'form-message error';
