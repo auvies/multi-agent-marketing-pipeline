@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Your Campaign - Multi-Agent Marketing</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 700px;
+      width: 100%;
+      padding: 40px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .search-section {
+      margin-bottom: 40px;
+    }
+
+    .form-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .search-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .search-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .loading {
+      text-align: center;
+      display: none;
+    }
+
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #667eea;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 15px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .result {
+      display: none;
+    }
+
+    .status-card {
+      background: #f5f7fa;
+      padding: 30px;
+      border-radius: 10px;
+      border-left: 4px solid #667eea;
+      margin-bottom: 20px;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 12px;
+      margin-bottom: 15px;
+    }
+
+    .status-badge.pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .status-badge.processing {
+      background: #cfe2ff;
+      color: #084298;
+    }
+
+    .status-badge.completed {
+      background: #d1e7dd;
+      color: #0f5132;
+    }
+
+    .status-badge.delivered {
+      background: #d1e7dd;
+      color: #0f5132;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .info-item {
+      background: white;
+      padding: 15px;
+      border-radius: 5px;
+    }
+
+    .info-item label {
+      display: block;
+      color: #999;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+    }
+
+    .info-item value {
+      display: block;
+      color: #333;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .timeline {
+      margin: 30px 0;
+    }
+
+    .timeline-item {
+      display: flex;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .timeline-item:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 40px;
+      width: 2px;
+      height: 30px;
+      background: #e0e0e0;
+    }
+
+    .timeline-dot {
+      width: 32px;
+      height: 32px;
+      background: #667eea;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+
+    .timeline-item.completed .timeline-dot {
+      background: #4caf50;
+    }
+
+    .timeline-item.active .timeline-dot {
+      background: #667eea;
+      box-shadow: 0 0 0 8px rgba(102, 126, 234, 0.1);
+    }
+
+    .timeline-content {
+      padding-top: 5px;
+    }
+
+    .timeline-label {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 3px;
+    }
+
+    .timeline-time {
+      font-size: 12px;
+      color: #999;
+    }
+
+    .campaign-preview {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+
+    .campaign-preview h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .campaign-preview p {
+      font-size: 13px;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .action-btn.primary {
+      background: #667eea;
+      color: white;
+    }
+
+    .action-btn.secondary {
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .error {
+      background: #ffebee;
+      color: #c62828;
+      padding: 20px;
+      border-radius: 5px;
+      border-left: 4px solid #c62828;
+      display: none;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: #999;
+    }
+
+    .empty-icon {
+      font-size: 48px;
+      margin-bottom: 15px;
+    }
+
+    .back-link {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+      margin-top: 20px;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>📊 Track Your Campaign</h1>
+    <p>Enter your Reference ID to check the status of your campaign order</p>
+  </div>
+
+  <div class="search-section">
+    <div class="form-group">
+      <input
+        type="text"
+        id="referenceId"
+        placeholder="e.g., REF-1725270123456-ABCDE"
+        onkeypress="if(event.key==='Enter') trackCampaign()"
+      >
+      <button class="search-btn" onclick="trackCampaign()">Search</button>
+    </div>
+  </div>
+
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p>Looking up your campaign...</p>
+  </div>
+
+  <div class="error" id="error"></div>
+
+  <div class="result" id="result">
+    <!-- Campaign details will be inserted here -->
+  </div>
+
+  <div class="empty" id="empty" style="display: none;">
+    <div class="empty-icon">🔍</div>
+    <p>Enter a Reference ID above to track your campaign order</p>
+    <p style="font-size: 12px; margin-top: 10px;">You received your Reference ID when you submitted your campaign request</p>
+  </div>
+
+  <a href="/" class="back-link">← Back to Home</a>
+</div>
+
+<script>
+  const API_URL = 'http://localhost:3001'; // Update when deployed
+
+  async function trackCampaign() {
+    const referenceId = document.getElementById('referenceId').value.trim();
+
+    if (!referenceId) {
+      showError('Please enter a Reference ID');
+      return;
+    }
+
+    const loading = document.getElementById('loading');
+    const result = document.getElementById('result');
+    const error = document.getElementById('error');
+    const empty = document.getElementById('empty');
+
+    loading.style.display = 'block';
+    result.style.display = 'none';
+    error.style.display = 'none';
+    empty.style.display = 'none';
+
+    try {
+      const response = await fetch(`${API_URL}/api/campaign-request/${referenceId}`);
+
+      if (!response.ok) {
+        throw new Error('Campaign request not found');
+      }
+
+      const data = await response.json();
+      const campaign = data.campaign;
+
+      loading.style.display = 'none';
+      displayCampaign(campaign);
+
+    } catch (err) {
+      loading.style.display = 'none';
+      showError('❌ Campaign not found. Check your Reference ID and try again.');
+    }
+  }
+
+  function displayCampaign(campaign) {
+    const result = document.getElementById('result');
+    const statusColor = getStatusColor(campaign.status);
+    const statusIcon = getStatusIcon(campaign.status);
+
+    let campaignContent = '';
+    if (campaign.campaign) {
+      campaignContent = `
+        <div class="campaign-preview">
+          <h3>📋 Your Campaign</h3>
+          <p>${JSON.stringify(campaign.campaign, null, 2).substring(0, 200)}...</p>
+          <p style="margin-top: 10px; font-size: 11px;">Full campaign will be sent to you via WhatsApp</p>
+        </div>
+      `;
+    }
+
+    result.innerHTML = `
+      <div class="status-card">
+        <span class="status-badge ${campaign.status}">${statusIcon} ${campaign.status.toUpperCase()}</span>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Reference ID</label>
+            <value>${campaign.referenceId}</value>
+          </div>
+          <div class="info-item">
+            <label>Company</label>
+            <value>${campaign.company}</value>
+          </div>
+          <div class="info-item">
+            <label>Product</label>
+            <value>${campaign.product}</value>
+          </div>
+          <div class="info-item">
+            <label>Goal</label>
+            <value>${campaign.goal}</value>
+          </div>
+          <div class="info-item">
+            <label>Submitted</label>
+            <value>${new Date(campaign.createdAt).toLocaleDateString()}</value>
+          </div>
+          <div class="info-item">
+            <label>Last Updated</label>
+            <value>${new Date(campaign.updatedAt).toLocaleDateString()}</value>
+          </div>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item ${campaign.status !== 'pending' ? 'completed' : ''}">
+            <div class="timeline-dot">✓</div>
+            <div class="timeline-content">
+              <div class="timeline-label">Request Received</div>
+              <div class="timeline-time">${new Date(campaign.createdAt).toLocaleString()}</div>
+            </div>
+          </div>
+
+          <div class="timeline-item ${campaign.status === 'processing' || campaign.status === 'completed' || campaign.status === 'delivered' ? 'active' : ''}">
+            <div class="timeline-dot">⚙</div>
+            <div class="timeline-content">
+              <div class="timeline-label">Agents Generating Campaign</div>
+              <div class="timeline-time">Research → Strategy → Content → Review</div>
+            </div>
+          </div>
+
+          <div class="timeline-item ${campaign.status === 'completed' || campaign.status === 'delivered' ? 'completed' : ''}">
+            <div class="timeline-dot">✓</div>
+            <div class="timeline-content">
+              <div class="timeline-label">Campaign Ready</div>
+              <div class="timeline-time">Approved at 8/10+</div>
+            </div>
+          </div>
+
+          <div class="timeline-item ${campaign.status === 'delivered' ? 'completed' : ''}">
+            <div class="timeline-dot">📧</div>
+            <div class="timeline-content">
+              <div class="timeline-label">Delivered to You</div>
+              <div class="timeline-time">Via WhatsApp or Email</div>
+            </div>
+          </div>
+        </div>
+
+        ${campaignContent}
+
+        <div class="action-buttons">
+          <button class="action-btn primary" onclick="contactSupport('${campaign.referenceId}')">
+            📞 Contact Support
+          </button>
+          <button class="action-btn secondary" onclick="copyReferenceId('${campaign.referenceId}')">
+            📋 Copy Reference ID
+          </button>
+        </div>
+      </div>
+    `;
+
+    result.style.display = 'block';
+  }
+
+  function getStatusIcon(status) {
+    const icons = {
+      'pending': '⏳',
+      'processing': '🔄',
+      'completed': '✅',
+      'delivered': '🎉'
+    };
+    return icons[status] || '❓';
+  }
+
+  function getStatusColor(status) {
+    const colors = {
+      'pending': '#fff3cd',
+      'processing': '#cfe2ff',
+      'completed': '#d1e7dd',
+      'delivered': '#d1e7dd'
+    };
+    return colors[status] || '#f0f0f0';
+  }
+
+  function showError(message) {
+    const error = document.getElementById('error');
+    error.textContent = message;
+    error.style.display = 'block';
+  }
+
+  function contactSupport(referenceId) {
+    const message = `Hi! I have a question about my campaign order (Ref: ${referenceId})`;
+    const encoded = encodeURIComponent(message);
+    window.open(`https://wa.me/923351600866?text=${encoded}`, '_blank');
+  }
+
+  function copyReferenceId(referenceId) {
+    navigator.clipboard.writeText(referenceId);
+    alert('Reference ID copied to clipboard!');
+  }
+
+  // Show empty state on load
+  window.addEventListener('load', () => {
+    document.getElementById('empty').style.display = 'block';
+  });
+</script>
+
+</body>
+</html>
