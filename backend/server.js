@@ -2,11 +2,48 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 const { Anthropic } = require('@anthropic-ai/sdk');
 
 const app = express();
 const client = new Anthropic();
+
+const emailTransporter = (process.env.EMAIL_USER && process.env.EMAIL_APP_PASSWORD)
+  ? nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_APP_PASSWORD
+      }
+    })
+  : null;
+
+async function sendCampaignRequestEmail(campaignRequest) {
+  if (!emailTransporter) return;
+  try {
+    await emailTransporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: process.env.EMAIL_USER,
+      subject: `New Campaign Request: ${campaignRequest.company}`,
+      text: [
+        'New campaign request received!',
+        '',
+        `Reference ID: ${campaignRequest.referenceId}`,
+        `Company: ${campaignRequest.company}`,
+        `Contact: ${campaignRequest.contact}`,
+        `Product: ${campaignRequest.product}`,
+        `Goal: ${campaignRequest.goal}`,
+        `Tone: ${campaignRequest.tone}`,
+        `Description: ${campaignRequest.description || 'N/A'}`,
+        '',
+        `Submitted: ${campaignRequest.createdAt}`
+      ].join('\n')
+    });
+  } catch (error) {
+    console.error('Failed to send email notification:', error.message);
+  }
+}
 
 // Data storage file
 const dataFile = path.join(__dirname, 'campaigns-database.json');
@@ -80,6 +117,8 @@ app.post('/api/campaign-request', (req, res) => {
     writeCampaigns(db);
 
     console.log(`✅ Campaign request saved: ${referenceId} for ${company}`);
+
+    sendCampaignRequestEmail(campaignRequest);
 
     res.json({
       status: 'success',
