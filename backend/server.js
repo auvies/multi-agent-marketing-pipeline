@@ -4,10 +4,10 @@ const fs = require('fs');
 const path = require('path');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
-const { Anthropic } = require('@anthropic-ai/sdk');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 const app = express();
-const client = new Anthropic();
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const emailTransporter = (process.env.EMAIL_USER && process.env.EMAIL_APP_PASSWORD)
   ? nodemailer.createTransport({
@@ -302,14 +302,9 @@ app.post('/api/campaign', async (req, res) => {
 
     console.log('Generating campaign for:', businessName);
 
-    // Call Claude to generate campaign strategy
-    const message = await client.messages.create({
-      model: 'claude-opus-5',
-      max_tokens: 2000,
-      messages: [
-        {
-          role: 'user',
-          content: `You are a marketing campaign expert. Create a complete social media campaign strategy for this business:
+    // Call Gemini to generate campaign strategy
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const prompt = `You are a marketing campaign expert. Create a complete social media campaign strategy for this business:
 
 Business Name: ${businessName}
 Product/Service: ${product}
@@ -335,13 +330,12 @@ Generate a JSON response with:
   "call_to_action": "Single compelling CTA (25 words max)"
 }
 
-Make the content warm, authentic, and tailored to the business. No fabricated stats or fake testimonials. Focus on real benefits and genuine value.`
-        }
-      ]
-    });
+Make the content warm, authentic, and tailored to the business. No fabricated stats or fake testimonials. Focus on real benefits and genuine value.`;
+
+    const result = await model.generateContent(prompt);
 
     // Parse the response
-    const campaignText = message.content[0].text;
+    const campaignText = result.response.text();
 
     // Try to extract JSON from response
     let campaign;
