@@ -11,11 +11,15 @@ const client = new Anthropic();
 
 const emailTransporter = (process.env.EMAIL_USER && process.env.EMAIL_APP_PASSWORD)
   ? nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      requireTLS: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_APP_PASSWORD
-      }
+      },
+      connectionTimeout: 10000
     })
   : null;
 
@@ -47,12 +51,46 @@ async function sendCampaignRequestEmail(campaignRequest) {
 
 // Data storage file
 const dataFile = path.join(__dirname, 'campaigns-database.json');
+const configFile = path.join(__dirname, 'site-config.json');
+
+const defaultSiteConfig = {
+  theme: 'purple',
+  heroTitle: 'Generate Professional Marketing Campaigns in Just 10 Minutes',
+  heroSubtitle: 'Stop waiting weeks for copywriters. Our AI agent team handles research, strategy, content creation, and quality review — all automatically. Launch campaigns that convert.',
+  contactPhone: '+92 335 1600866',
+  contactEmail: 'auviesinam8@gmail.com',
+  whatsappNumber: '923351600866'
+};
+
+const themes = {
+  purple: { primary: '#667eea', secondary: '#764ba2' },
+  blue: { primary: '#2193b0', secondary: '#6dd5ed' },
+  green: { primary: '#11998e', secondary: '#38ef7d' },
+  orange: { primary: '#f2994a', secondary: '#f2c94c' },
+  pink: { primary: '#eb3349', secondary: '#f45c43' }
+};
 
 // Initialize database file if it doesn't exist
 function initializeDatabase() {
   if (!fs.existsSync(dataFile)) {
     fs.writeFileSync(dataFile, JSON.stringify({ campaigns: [] }, null, 2));
   }
+  if (!fs.existsSync(configFile)) {
+    fs.writeFileSync(configFile, JSON.stringify(defaultSiteConfig, null, 2));
+  }
+}
+
+function readSiteConfig() {
+  try {
+    const data = fs.readFileSync(configFile, 'utf8');
+    return { ...defaultSiteConfig, ...JSON.parse(data) };
+  } catch (error) {
+    return defaultSiteConfig;
+  }
+}
+
+function writeSiteConfig(data) {
+  fs.writeFileSync(configFile, JSON.stringify(data, null, 2));
 }
 
 // Read campaigns from file
@@ -205,6 +243,49 @@ app.put('/api/admin/campaigns/:referenceId', (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+
+// Get site configuration (public — landing page reads this on load)
+app.get('/api/site-config', (req, res) => {
+  try {
+    const config = readSiteConfig();
+    const colors = themes[config.theme] || themes.purple;
+    res.json({ status: 'success', config: { ...config, colors } });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Update site configuration (admin endpoint)
+app.put('/api/admin/site-config', (req, res) => {
+  try {
+    const current = readSiteConfig();
+    const { theme, heroTitle, heroSubtitle, contactPhone, contactEmail, whatsappNumber } = req.body;
+
+    if (theme && !themes[theme]) {
+      return res.status(400).json({ error: `Unknown theme: ${theme}` });
+    }
+
+    const updated = {
+      theme: theme || current.theme,
+      heroTitle: heroTitle || current.heroTitle,
+      heroSubtitle: heroSubtitle || current.heroSubtitle,
+      contactPhone: contactPhone || current.contactPhone,
+      contactEmail: contactEmail || current.contactEmail,
+      whatsappNumber: whatsappNumber || current.whatsappNumber
+    };
+
+    writeSiteConfig(updated);
+
+    res.json({ status: 'success', config: updated });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// List available themes (public)
+app.get('/api/themes', (req, res) => {
+  res.json({ status: 'success', themes });
 });
 
 // Main campaign generation endpoint
