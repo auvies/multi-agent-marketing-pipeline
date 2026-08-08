@@ -353,7 +353,7 @@ app.post('/api/campaign', async (req, res) => {
 
     console.log('Generating campaign for:', businessName);
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-flash-latest' });
 
     async function askAgent(prompt) {
       const result = await model.generateContent(prompt);
