@@ -2,48 +2,46 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
-const nodemailer = require('nodemailer');
 require('dotenv').config();
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 const app = express();
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-const emailTransporter = (process.env.EMAIL_USER && process.env.EMAIL_APP_PASSWORD)
-  ? nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 587,
-      secure: false,
-      requireTLS: true,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_APP_PASSWORD
-      },
-      connectionTimeout: 10000
-    })
-  : null;
+const NOTIFY_EMAIL = process.env.EMAIL_USER || 'auviesinam8@gmail.com';
 
 async function sendCampaignRequestEmail(campaignRequest) {
-  if (!emailTransporter) return;
+  if (!process.env.RESEND_API_KEY) return;
   try {
-    await emailTransporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
-      subject: `New Campaign Request: ${campaignRequest.company}`,
-      text: [
-        'New campaign request received!',
-        '',
-        `Reference ID: ${campaignRequest.referenceId}`,
-        `Company: ${campaignRequest.company}`,
-        `Contact: ${campaignRequest.contact}`,
-        `Product: ${campaignRequest.product}`,
-        `Goal: ${campaignRequest.goal}`,
-        `Tone: ${campaignRequest.tone}`,
-        `Description: ${campaignRequest.description || 'N/A'}`,
-        '',
-        `Submitted: ${campaignRequest.createdAt}`
-      ].join('\n')
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: 'Multi-Agent Marketing <onboarding@resend.dev>',
+        to: [NOTIFY_EMAIL],
+        subject: `New Campaign Request: ${campaignRequest.company}`,
+        text: [
+          'New campaign request received!',
+          '',
+          `Reference ID: ${campaignRequest.referenceId}`,
+          `Company: ${campaignRequest.company}`,
+          `Contact: ${campaignRequest.contact}`,
+          `Product: ${campaignRequest.product}`,
+          `Goal: ${campaignRequest.goal}`,
+          `Tone: ${campaignRequest.tone}`,
+          `Description: ${campaignRequest.description || 'N/A'}`,
+          '',
+          `Submitted: ${campaignRequest.createdAt}`
+        ].join('\n')
+      })
     });
+    if (!response.ok) {
+      const errText = await response.text();
+      console.error('Failed to send email notification:', response.status, errText);
+    }
   } catch (error) {
     console.error('Failed to send email notification:', error.message);
   }
@@ -118,7 +116,7 @@ initializeDatabase();
 app.get('/', (req, res) => {
   const uptimeMinutes = Math.floor(process.uptime() / 60);
   const geminiConfigured = !!process.env.GEMINI_API_KEY;
-  const emailConfigured = !!emailTransporter;
+  const emailConfigured = !!process.env.RESEND_API_KEY;
   const db = readCampaigns();
 
   res.type('html').send(`<!DOCTYPE html>
