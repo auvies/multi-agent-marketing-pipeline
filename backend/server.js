@@ -114,6 +114,57 @@ app.use(express.json());
 
 initializeDatabase();
 
+// Root status page — human-readable dashboard instead of Express's default "Cannot GET /"
+app.get('/', (req, res) => {
+  const uptimeMinutes = Math.floor(process.uptime() / 60);
+  const geminiConfigured = !!process.env.GEMINI_API_KEY;
+  const emailConfigured = !!emailTransporter;
+  const db = readCampaigns();
+
+  res.type('html').send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Campaign Backend — Status</title>
+<style>
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f172a; color: #e2e8f0; padding: 40px; max-width: 700px; margin: 0 auto; }
+  h1 { font-size: 24px; margin-bottom: 8px; }
+  .sub { color: #94a3b8; margin-bottom: 30px; font-size: 14px; }
+  .row { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: #1e293b; border-radius: 8px; margin-bottom: 10px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 10px; }
+  .ok { background: #22c55e; }
+  .off { background: #ef4444; }
+  .label { font-weight: 600; }
+  .value { color: #94a3b8; font-size: 13px; }
+  code { background: #1e293b; padding: 3px 8px; border-radius: 4px; font-size: 13px; }
+  .endpoints { margin-top: 30px; }
+  .endpoints li { margin-bottom: 8px; font-size: 14px; }
+</style>
+</head>
+<body>
+  <h1>🚀 Multi-Agent Marketing — Backend</h1>
+  <div class="sub">Live status and indicators</div>
+
+  <div class="row"><span class="label"><span class="dot ok"></span>Server</span><span class="value">Running — uptime ${uptimeMinutes} min</span></div>
+  <div class="row"><span class="label"><span class="dot ${geminiConfigured ? 'ok' : 'off'}"></span>Gemini AI (instant generation)</span><span class="value">${geminiConfigured ? 'Configured' : 'Not configured'}</span></div>
+  <div class="row"><span class="label"><span class="dot ${emailConfigured ? 'ok' : 'off'}"></span>Email notifications</span><span class="value">${emailConfigured ? 'Configured' : 'Not configured'}</span></div>
+  <div class="row"><span class="label"><span class="dot ok"></span>Campaign requests stored</span><span class="value">${db.campaigns.length}</span></div>
+
+  <div class="endpoints">
+    <strong>API Endpoints</strong>
+    <ul>
+      <li><code>GET /api/health</code> — health check</li>
+      <li><code>POST /api/campaign-request</code> — save a request + email notification</li>
+      <li><code>GET /api/campaign-request/:referenceId</code> — track a request</li>
+      <li><code>POST /api/campaign</code> — instant AI generation (5-agent pipeline)</li>
+      <li><code>GET /api/site-config</code> — public site theme/content</li>
+      <li><code>GET /api/admin/campaigns</code> — admin: list requests</li>
+    </ul>
+  </div>
+</body>
+</html>`);
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ status: 'Backend is running! 🚀' });
@@ -302,51 +353,87 @@ app.post('/api/campaign', async (req, res) => {
 
     console.log('Generating campaign for:', businessName);
 
-    // Call Gemini to generate campaign strategy
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-    const prompt = `You are a marketing campaign expert. Create a complete social media campaign strategy for this business:
 
-Business Name: ${businessName}
+    async function askAgent(prompt) {
+      const result = await model.generateContent(prompt);
+      return result.response.text();
+    }
+
+    function extractJson(text) {
+      try {
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        return jsonMatch ? JSON.parse(jsonMatch[0]) : { raw: text };
+      } catch (e) {
+        return { raw: text };
+      }
+    }
+
+    const brief = `Business Name: ${businessName}
 Product/Service: ${product}
 Sales Goal: ${goal}
 Brand Tone: ${tone}
-Additional Info: ${description || 'None provided'}
+Additional Info: ${description || 'None provided'}`;
 
-Generate a JSON response with:
-{
-  "objective": "Campaign objective (one sentence)",
-  "main_message": "Main marketing message",
-  "pillars": [
-    "Pillar 1 - Theme and what to emphasize",
-    "Pillar 2 - Theme and what to emphasize",
-    "Pillar 3 - Theme and what to emphasize"
-  ],
-  "social_posts": [
-    "Post 1 for Instagram/Facebook",
-    "Post 2 for Instagram/Facebook",
-    "Post 3 for Instagram/Facebook"
-  ],
-  "whatsapp_message": "WhatsApp broadcast message (160 words max)",
-  "call_to_action": "Single compelling CTA (25 words max)"
-}
+    // 1. Research Agent — audience insights only
+    const researchText = await askAgent(`You are the Research Agent on a marketing team. Given this project brief, produce audience insights ONLY — who the target audience is, their needs, and what motivates them to buy. Do not write strategy or content. No fabricated stats.
 
-Make the content warm, authentic, and tailored to the business. No fabricated stats or fake testimonials. Focus on real benefits and genuine value.`;
+${brief}
 
-    const result = await model.generateContent(prompt);
+Respond as JSON: { "audience_insights": "..." }`);
+    const research = extractJson(researchText);
 
-    // Parse the response
-    const campaignText = result.response.text();
+    // 2. Strategy Agent — objective, main message, content pillars
+    const strategyText = await askAgent(`You are the Strategy Agent. Using the brief and audience insights below, produce the campaign objective (one sentence), the main marketing message, and 2-3 content pillars. Do not write social copy.
 
-    // Try to extract JSON from response
-    let campaign;
-    try {
-      const jsonMatch = campaignText.match(/\{[\s\S]*\}/);
-      campaign = jsonMatch ? JSON.parse(jsonMatch[0]) : { raw: campaignText };
-    } catch (e) {
-      campaign = { raw: campaignText };
-    }
+Brief:
+${brief}
 
-    // Return success response
+Audience Insights:
+${research.audience_insights || researchText}
+
+Respond as JSON: { "objective": "...", "main_message": "...", "pillars": ["...", "..."] }`);
+    const strategy = extractJson(strategyText);
+
+    // 3. Content Agent — social posts, WhatsApp message, call to action
+    const contentText = await askAgent(`You are the Content Agent. Using the brief and strategy below, write 3 social media posts, one WhatsApp broadcast message (160 words max), and one call to action (25 words max). Match the stated tone exactly. No repeated ideas across posts, no fabricated stats/reviews/quotes — use [TODO: ...] for anything requiring real data you don't have.
+
+Brief:
+${brief}
+
+Strategy:
+Objective: ${strategy.objective || ''}
+Main Message: ${strategy.main_message || ''}
+Pillars: ${(strategy.pillars || []).join('; ')}
+
+Respond as JSON: { "social_posts": ["...", "...", "..."], "whatsapp_message": "...", "call_to_action": "..." }`);
+    const content = extractJson(contentText);
+
+    // 4. Review Agent — score out of 10, rewrite weak lines
+    const reviewText = await askAgent(`You are the Review Agent. Score the content below out of 10 against the goal and tone. Rewrite any weak or off-tone lines directly and return the final, best version of every field along with the score and improvement notes.
+
+Brief:
+${brief}
+
+Content:
+${JSON.stringify(content)}
+
+Respond as JSON: { "score": <number 1-10>, "improvement_notes": "...", "final_social_posts": ["...", "...", "..."], "final_whatsapp_message": "...", "final_call_to_action": "..." }`);
+    const review = extractJson(reviewText);
+
+    // 5. Orchestrator — assemble the final package
+    const campaign = {
+      audience_insights: research.audience_insights || research.raw || '',
+      objective: strategy.objective || '',
+      main_message: strategy.main_message || '',
+      pillars: strategy.pillars || [],
+      social_posts: review.final_social_posts || content.social_posts || [],
+      whatsapp_message: review.final_whatsapp_message || content.whatsapp_message || '',
+      call_to_action: review.final_call_to_action || content.call_to_action || '',
+      review_score: review.score ?? null,
+      improvement_notes: review.improvement_notes || ''
+    };
+
     res.json({
       status: 'success',
       businessName: businessName,
